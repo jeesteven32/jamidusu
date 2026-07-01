@@ -99,6 +99,13 @@
       scroll-behavior: smooth;
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
+      cursor: grab;
+      user-select: none;
+    }
+    .hero-track.dragging {
+      cursor: grabbing;
+      scroll-behavior: auto;
+      scroll-snap-type: none;
     }
     .hero-track::-webkit-scrollbar { display: none; }
     .hero-slide {
@@ -476,6 +483,9 @@
     const heroTrack = document.querySelector("#heroTrack");
     const heroDots = document.querySelectorAll(".dots .dot");
     let heroScrollFrame;
+    let isHeroDragging = false;
+    let heroDragStartX = 0;
+    let heroDragStartScroll = 0;
 
     const setActiveHeroDot = (activeIndex) => {
       heroDots.forEach((item, index) => {
@@ -500,6 +510,45 @@
         setActiveHeroDot(activeIndex);
       });
     });
+
+    heroTrack.addEventListener("pointerdown", (event) => {
+      if (event.pointerType !== "mouse") return;
+
+      isHeroDragging = true;
+      heroDragStartX = event.clientX;
+      heroDragStartScroll = heroTrack.scrollLeft;
+      heroTrack.classList.add("dragging");
+      heroTrack.setPointerCapture(event.pointerId);
+    });
+
+    heroTrack.addEventListener("pointermove", (event) => {
+      if (!isHeroDragging) return;
+
+      event.preventDefault();
+      const dragDistance = event.clientX - heroDragStartX;
+      heroTrack.scrollLeft = heroDragStartScroll - dragDistance;
+    });
+
+    const endHeroDrag = (event) => {
+      if (!isHeroDragging) return;
+
+      isHeroDragging = false;
+      heroTrack.classList.remove("dragging");
+      if (heroTrack.hasPointerCapture(event.pointerId)) {
+        heroTrack.releasePointerCapture(event.pointerId);
+      }
+
+      const activeIndex = Math.round(heroTrack.scrollLeft / heroTrack.clientWidth);
+      setActiveHeroDot(activeIndex);
+      heroTrack.scrollTo({
+        left: heroTrack.clientWidth * activeIndex,
+        behavior: "smooth",
+      });
+    };
+
+    heroTrack.addEventListener("pointerup", endHeroDrag);
+    heroTrack.addEventListener("pointercancel", endHeroDrag);
+    heroTrack.addEventListener("lostpointercapture", endHeroDrag);
 
     const categoryChips = document.querySelectorAll(".tabs .chip");
 
