@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>조개점 | 운세가 맛집</title>
+  <style>
+    :root {
+      --pink: #ec5b92;
+      --pink-2: #ff8eba;
+      --rose: #ffccd9;
+      --lavender: #d9c5ff;
+      --lavender-2: #f3eaff;
+      --cream: #fff5e7;
+      --beige: #f7dfbd;
+      --gold: #ffd45a;
+      --brown: #6f3d27;
+      --ink: #171717;
+      --muted: #77736f;
+      --line: #eee6dc;
+      --shadow: 0 10px 28px rgba(73, 42, 68, .11);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(255, 215, 236, .6), transparent 28%),
+        radial-gradient(circle at 95% 8%, rgba(220, 202, 255, .65), transparent 24%),
+        #fff;
+    }
+
+    .phone {
+      width: min(100vw, 430px);
+      min-height: 100vh;
+      margin: 0 auto;
+      background: #fff;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 0 0 1px rgba(0,0,0,.04), 0 20px 70px rgba(0,0,0,.12);
+      padding-bottom: 92px;
+    }
+
+    header {
+      height: 78px;
+      padding: 14px 16px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid rgba(240, 230, 220, .7);
+    }
+
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .logo {
+      width: 42px; height: 42px; border-radius: 14px;
+      display: grid; place-items: center;
+      background: linear-gradient(145deg, #fff0f8, #eee3ff);
+      box-shadow: inset 0 0 0 1px rgba(236,91,146,.12), 0 6px 18px rgba(236,91,146,.13);
+      font-size: 25px;
+    }
+    .brand strong { display:block; font-size: 20px; line-height: 1.05; letter-spacing: -.7px; }
+    .brand span { display:block; margin-top:4px; font-size: 12px; color: var(--muted); }
+    .login {
+      border: 0;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #ffdf68, #ffc739);
+      padding: 13px 24px;
+      font-weight: 800;
+      font-size: 18px;
+      box-shadow: 0 7px 16px rgba(255, 197, 54, .28);
+      cursor: pointer;
+    }
+
+    .hero {
+      margin: 0;
+      height: 258px;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(189,158,255,.65) 0 2%, transparent 2% 5%, rgba(255,177,203,.55) 5% 6.5%, transparent 6.5% 100%),
+        linear-gradient(315deg, rgba(189,158,255,.55) 0 2%, transparent 2% 5%, rgba(255,198,103,.55) 5% 6.2%, transparent 6.2% 100%),
+        radial-gradient(circle at 20% 24%, rgba(255,255,255,.8), transparent 13%),
+        radial-gradient(circle at 80% 65%, rgba(255,255,255,.62), transparent 18%),
+        #f8dfbd;
+      border-bottom: 1px solid #f1d7ba;
+    }
+    .hero:before {
+      content:"";
+      position:absolute; inset:0;
+      background-image:
+        radial-gradient(rgba(139, 91, 52, .12) 1px, transparent 1px),
+        linear-gradient(90deg, transparent 0 92%, rgba(142,89,45,.15) 92% 92.5%, transparent 92.5%);
+      background-size: 14px 14px, 100% 100%;
+      opacity:.42;
+      pointer-events:none;
+    }
+    .corner { position: absolute; width: 74px; height: 74px; opacity:.45; }
+    .corner.tl { left: 10px; top: 14px; border-top: 2px solid #b7793d; border-left: 2px solid #b7793d; }
+    .corner.br { right: 10px; bottom: 14px; border-right: 2px solid #b7793d; border-bottom: 2px solid #b7793d; }
+    .cloud { position:absolute; color:rgba(255,255,255,.7); font-size:34px; filter: drop-shadow(0 2px 0 rgba(180,120,70,.08)); }
+    .cloud.c1 { left: 24px; bottom: 20px; }
+    .cloud.c2 { right: 18px; top: 48px; }
+
+    .hero-copy {
+      position:absolute;
+      z-index:2;
+      top: 36px;
+      width: 126px;
+      text-align:center;
+      color: #9b1e18;
+      font-family: Georgia, "Noto Serif KR", serif;
+      font-weight: 900;
+      text-shadow: 0 1px 0 rgba(255,255,255,.8);
+    }
+    .hero-copy.left { left: 8px; }
+    .hero-copy.right { right: 8px; }
+    .vertical {
+      writing-mode: vertical-rl;
+      letter-spacing: 6px;
+      font-size: 17px;
+      line-height: 1.1;
+      position: absolute;
+      top: 5px;
+    }
+    .left .vertical { left: 12px; }
+    .right .vertical { left: 16px; }
+    .bigword {
+      position: absolute;
+      top: 2px;
+      right: 4px;
+      font-size: 55px;
+      line-height: 1.18;
+      color: #ea4f6d;
+      -webkit-text-stroke: 2px #ffd55b;
+      text-shadow: 3px 3px 0 rgba(138, 28, 19, .25);
+    }
+    .right .bigword { right: 0; }
+    .hero-shell { font-size: 22px; position:absolute; left: 58px; top: 86px; opacity:.9; }
+
+    .otter-frame {
+      position: absolute;
+      z-index:3;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -44%);
+      width: 136px; height: 136px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #ffe3ec, #ffd5c8);
+      border: 7px solid rgba(255,255,255,.62);
+      box-shadow: 0 0 0 4px rgba(155, 93, 54, .35), 0 14px 24px rgba(111,61,39,.18);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+    .otter-frame .towel { position:absolute; top: 14px; font-size: 43px; transform: rotate(-8deg); z-index: 4; }
+    .otter-face { font-size: 82px; transform: translateY(10px); filter: drop-shadow(0 5px 6px rgba(80,40,25,.15)); }
+    .sunglasses { position:absolute; top: 56px; font-size: 34px; z-index:5; transform: rotate(-5deg); }
+    .phone-shell { position:absolute; left: 20px; top: 58px; z-index:6; font-size: 31px; transform: rotate(-20deg); }
+    .dots { position: absolute; z-index:4; bottom: 18px; left:0; right:0; display:flex; justify-content:center; gap: 9px; }
+    .dot { width:9px; height:9px; border-radius:999px; background:rgba(255,255,255,.75); }
+    .dot.active { width:28px; background:#fff; }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding: 16px 16px 12px;
+      background: #fff;
+    }
+    .tabs::-webkit-scrollbar { display:none; }
+    .chip {
+      white-space: nowrap;
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 17px;
+      background: #f4f0ec;
+      color: #1e1e1e;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    .chip.active { background: #050505; color: #fff; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 0 12px 20px;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      min-width: 0;
+    }
+    .visual {
+      position: relative;
+      height: 220px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 6px;
+    }
+    .visual h2 {
+      position:absolute;
+      top: 22px;
+      left: 13px;
+      right: 10px;
+      margin:0;
+      font-size: 56px;
+      line-height:.95;
+      letter-spacing:-6px;
+      color: rgba(255,255,255,.86);
+      -webkit-text-stroke: 2px currentColor;
+      text-shadow: 0 4px 0 rgba(55,25,80,.16), 0 0 0 #fff;
+      z-index:2;
+    }
+    .saju .visual {
+      background:
+        radial-gradient(circle at 25% 22%, rgba(255,255,255,.8), transparent 12%),
+        radial-gradient(circle at 85% 34%, rgba(255,255,255,.85), transparent 8%),
+        linear-gradient(145deg, #dfccff, #ffe0f0 64%, #fff4c9);
+    }
+    .saju .visual h2 { color:#b38adf; -webkit-text-stroke: 2px #fff; }
+    .match .visual {
+      background:
+        radial-gradient(circle at 24% 35%, rgba(255,255,255,.8), transparent 8%),
+        radial-gradient(circle at 77% 22%, rgba(255,255,255,.8), transparent 8%),
+        linear-gradient(145deg, #ffc9d8, #ffe8ed 52%, #ffd0e5);
+    }
+    .match .visual h2 { color:#e95f85; -webkit-text-stroke: 2px #fff; }
+    .zami .visual { height: 170px; background: linear-gradient(145deg,#2d6fb6,#9ecbff); }
+    .zami .visual h2 { color:#16366f; -webkit-text-stroke: 1.5px #ffec8c; font-size: 40px; letter-spacing:-3px; }
+    .taek .visual { height: 170px; background: linear-gradient(145deg,#fff0c8,#f7d292); }
+    .taek .visual h2 { color:#1f376b; -webkit-text-stroke: 1.5px #ffda60; font-size: 43px; letter-spacing:-3px; }
+
+    .sparkles { position:absolute; inset:0; z-index:1; opacity:.85; pointer-events:none; }
+    .sparkles:before, .sparkles:after {
+      content:"✦  ✧   ✦   ♡   ✧";
+      position:absolute;
+      color:rgba(255,255,255,.85);
+      font-size:21px;
+      letter-spacing: 13px;
+      transform: rotate(-9deg);
+    }
+    .sparkles:before { top: 78px; left: 8px; }
+    .sparkles:after { bottom: 56px; right: -10px; }
+
+    .otter-card {
+      position: relative;
+      z-index:3;
+      width: 142px;
+      height: 142px;
+      display:grid;
+      place-items:end center;
+    }
+    .otter-card .animal { font-size: 88px; filter: drop-shadow(0 8px 9px rgba(64,36,25,.22)); transform: translateY(6px); }
+    .hat {
+      position:absolute;
+      top: -6px;
+      font-size: 66px;
+      transform: rotate(-11deg);
+      z-index:4;
+      filter: drop-shadow(0 4px 0 rgba(0,0,0,.08));
+    }
+    .shell-prop {
+      position:absolute;
+      bottom: 20px;
+      left: 14px;
+      font-size: 34px;
+      z-index:5;
+      transform: rotate(-18deg);
+    }
+    .wand { position:absolute; right: 4px; bottom: 18px; font-size: 47px; z-index:5; transform: rotate(15deg); }
+    .badge {
+      position:absolute;
+      right: 10px;
+      bottom: 12px;
+      z-index:7;
+      width: 44px; height:44px;
+      border-radius: 50%;
+      background: #dfff30;
+      border: 2px solid #111;
+      display:grid; place-items:center;
+      font-weight:900;
+      font-size: 12px;
+    }
+    .body { padding: 13px 12px 14px; }
+    .body h3 { margin: 0 0 8px; font-size: 18px; letter-spacing:-.6px; }
+    .body p { margin: 0 0 14px; color: var(--muted); font-size: 13px; line-height: 1.45; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-footer { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .trial { color: var(--pink); font-weight: 900; font-size: 14px; white-space: nowrap; }
+    .go {
+      border:0; border-radius:999px;
+      padding: 10px 13px;
+      color:#fff;
+      background: linear-gradient(180deg, #f06aa0, #e44786);
+      font-weight:900;
+      font-size: 12px;
+      box-shadow: 0 7px 16px rgba(228,71,134,.24);
+      white-space: nowrap;
+      cursor:pointer;
+    }
+
+    nav {
+      position: fixed;
+      left: 50%; bottom: 0;
+      transform: translateX(-50%);
+      width: min(100vw, 430px);
+      height: 76px;
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(230,220,215,.9);
+      display:grid;
+      grid-template-columns: repeat(5,1fr);
+      align-items:end;
+      padding: 8px 8px 9px;
+      z-index:20;
+      box-shadow: 0 -8px 28px rgba(66, 35, 50, .08);
+    }
+    .nav-item {
+      text-align:center;
+      color:#4d4d4d;
+      font-size: 11px;
+      font-weight:700;
+      text-decoration: none;
+    }
+    .nav-item .ico { display:block; font-size: 24px; line-height: 1.1; margin-bottom:3px; }
+    .nav-item.active { color: var(--pink); }
+    .nav-center { position:relative; transform: translateY(-15px); }
+    .nav-center .bubble {
+      width: 68px; height:68px;
+      margin: 0 auto 2px;
+      border-radius: 50%;
+      display:grid; place-items:center;
+      font-size: 34px;
+      background: linear-gradient(145deg, #ffb25d, #f85b9b 55%, #b456ed);
+      color:#fff;
+      border: 5px solid #fff;
+      box-shadow: 0 8px 20px rgba(236,91,146,.33);
+    }
+
+    @media (max-width: 380px) {
+      .hero { height: 238px; }
+      .hero-copy { transform: scale(.9); transform-origin: top; }
+      .hero-copy.left { left: -5px; }
+      .hero-copy.right { right: -4px; }
+      .otter-frame { width: 122px; height: 122px; }
+      .visual { height: 202px; }
+      .visual h2 { font-size: 49px; }
+      .go { padding: 9px 10px; font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="phone" aria-label="조개점 운세 서비스 홈">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true">🐚</div>
+        <div>
+          <strong>조개점</strong>
+          <span>운세가 맛집</span>
+        </div>
+      </div>
+      <button class="login" type="button">로그인</button>
+    </header>
+
+    <section class="hero" aria-label="메인 배너">
+      <div class="corner tl"></div>
+      <div class="corner br"></div>
+      <div class="cloud c1">☁︎</div>
+      <div class="cloud c2">☁︎</div>
+
+      <div class="hero-copy left">
+        <div class="vertical">잘 풀리는 하루</div>
+        <div class="bigword">비<br>법</div>
+        <div class="hero-shell">🐚</div>
+      </div>
+
+      <div class="otter-frame" aria-hidden="true">
+        <div class="towel">☁️</div>
+        <div class="otter-face">🦦</div>
+        <div class="sunglasses">🕶️</div>
+        <div class="phone-shell">🐚</div>
+      </div>
+
+      <div class="hero-copy right">
+        <div class="vertical">정통 오리지널</div>
+        <div class="bigword">택<br>일</div>
+        <div class="hero-shell">🐚</div>
+      </div>
+
+      <div class="dots" aria-hidden="true">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot active"></span>
+      </div>
+    </section>
+
+    <section class="tabs" aria-label="카테고리">
+      <button class="chip active" type="button">전체</button>
+      <button class="chip" type="button">사주·명리</button>
+      <button class="chip" type="button">자미두수</button>
+      <button class="chip" type="button">궁합</button>
+      <button class="chip" type="button">상담</button>
+    </section>
+
+    <section class="grid" aria-label="운세 상품 목록">
+      <article class="card saju">
+        <div class="visual">
+          <h2>사주</h2>
+          <div class="sparkles"></div>
+          <div class="otter-card" aria-hidden="true">
+            <div class="hat">🧙‍♀️</div>
+            <div class="animal">🦦</div>
+            <div class="shell-prop">🐚</div>
+          </div>
+          <div class="badge">NEW</div>
+        </div>
+        <div class="body">
+          <h3>990원 사주</h3>
+          <p>용하고 소문난 사주 해설</p>
+          <div class="card-footer">
+            <span class="trial">1차로</span>
+            <button class="go" type="button">해설 보러가기 〉</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card match">
+        <div class="visual">
+          <h2>궁합</h2>
+          <div class="sparkles"></div>
+          <div class="otter-card" aria-hidden="true">
+            <div class="hat">🧙‍♀️</div>
+            <div class="animal">🦦</div>
+            <div class="wand">🪄</div>
+          </div>
+        </div>
+        <div class="body">
+          <h3>궁합 해설</h3>
+          <p>우리 사이는 몇 점? 궁합도 잘봐요</p>
+          <div class="card-footer">
+            <span class="trial">1차로</span>
+            <button class="go" type="button">해설 보러가기 〉</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card zami">
+        <div class="visual">
+          <h2>자미두수</h2>
+          <div class="sparkles"></div>
+          <div class="otter-card" aria-hidden="true">
+            <div class="animal">🦦</div>
+            <div class="shell-prop">🌙</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card taek">
+        <div class="visual">
+          <h2>택일</h2>
+          <div class="sparkles"></div>
+          <div class="otter-card" aria-hidden="true">
+            <div class="animal">🦦</div>
+            <div class="shell-prop">🐚</div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav aria-label="하단 메뉴">
+    <a class="nav-item active" href="#"><span class="ico">⌂</span>홈</a>
+    <a class="nav-item" href="#"><span class="ico">♁</span>사주추가</a>
+    <a class="nav-item nav-center" href="#"><span class="bubble">🐚</span>무료운세</a>
+    <a class="nav-item" href="#"><span class="ico">♡</span>대화방</a>
+    <a class="nav-item" href="#"><span class="ico">▤</span>보관함</a>
+  </nav>
+</body>
+</html>
