@@ -121,7 +121,13 @@
       font-weight: 800;
       font-size: 13px;
       cursor: pointer;
+      transition: background .18s ease, color .18s ease, transform .18s ease, box-shadow .18s ease;
     }
+    .chip:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(66, 35, 50, .08);
+    }
+    .chip:active { transform: translateY(0) scale(.96); }
     .chip.active { background: #050505; color: #fff; }
 
     .grid {
@@ -175,6 +181,18 @@
     }
     .go:hover { filter: brightness(1.04); }
     .go:active { transform: scale(.96); }
+    .saju .go {
+      background: linear-gradient(180deg, #bd91f2, #8f62dc);
+      box-shadow: 0 7px 16px rgba(143, 98, 220, .24);
+    }
+    .zami .go {
+      background: linear-gradient(180deg, #63a7f4, #3c78d4);
+      box-shadow: 0 7px 16px rgba(60, 120, 212, .24);
+    }
+    .taek .go {
+      background: linear-gradient(180deg, #f0b35f, #d98635);
+      box-shadow: 0 7px 16px rgba(217, 134, 53, .25);
+    }
 
     nav {
       position: fixed;
@@ -412,5 +430,15 @@
       보관함
     </a>
   </nav>
+  <script>
+    const categoryChips = document.querySelectorAll(".tabs .chip");
+
+    categoryChips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        categoryChips.forEach((item) => item.classList.remove("active"));
+        chip.classList.add("active");
+      });
+    });
+  </script>
 </body>
 </html>
