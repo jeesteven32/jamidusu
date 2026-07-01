@@ -97,9 +97,22 @@
       height: 100%;
       object-fit: cover;
       object-position: center;
+      transition: opacity .18s ease;
     }
+    .hero img.is-changing { opacity: .35; }
     .dots { position: absolute; z-index:4; bottom: 14px; left:0; right:0; display:flex; justify-content:center; gap: 8px; }
-    .dot { width:8px; height:8px; border-radius:999px; background:rgba(255,255,255,.75); box-shadow: 0 1px 4px rgba(0,0,0,.16); }
+    .dot {
+      width:8px;
+      height:8px;
+      border:0;
+      border-radius:999px;
+      padding:0;
+      background:rgba(255,255,255,.75);
+      box-shadow: 0 1px 4px rgba(0,0,0,.16);
+      cursor:pointer;
+      transition: width .18s ease, background .18s ease, transform .18s ease;
+    }
+    .dot:hover { transform: translateY(-1px); }
     .dot.active { width:26px; background:#fff; }
 
     .tabs {
@@ -317,9 +330,12 @@
     </header>
 
     <section class="hero" aria-label="메인 배너">
-      <img src="./assets/images/ChatGPT Image 2026년 7월 1일 오후 09_29_25 (1).png" alt="비법택일 운세 배너" />
-      <div class="dots" aria-hidden="true">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot active"></span>
+      <img id="heroBanner" src="./ChatGPT Image 2026년 7월 1일 오후 10_26_55.png" alt="운세 배너 1" />
+      <div class="dots" aria-label="배너 선택">
+        <button class="dot active" type="button" aria-label="첫 번째 배너"></button>
+        <button class="dot" type="button" aria-label="두 번째 배너"></button>
+        <button class="dot" type="button" aria-label="세 번째 배너"></button>
+        <button class="dot" type="button" aria-label="네 번째 배너"></button>
       </div>
     </section>
 
@@ -431,6 +447,43 @@
     </a>
   </nav>
   <script>
+    const heroBanners = [
+      {
+        src: "./ChatGPT Image 2026년 7월 1일 오후 10_26_55.png",
+        alt: "운세 배너 1",
+      },
+      {
+        src: "./ChatGPT Image 2026년 7월 1일 오후 10_27_04.png",
+        alt: "운세 배너 2",
+      },
+      {
+        src: "./ChatGPT Image 2026년 7월 1일 오후 10_27_00.png",
+        alt: "운세 배너 3",
+      },
+      {
+        src: "./ChatGPT Image 2026년 7월 1일 오후 10_27_08.png",
+        alt: "운세 배너 4",
+      },
+    ];
+    const heroBanner = document.querySelector("#heroBanner");
+    const heroDots = document.querySelectorAll(".dots .dot");
+
+    heroDots.forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        if (dot.classList.contains("active")) return;
+
+        heroDots.forEach((item) => item.classList.remove("active"));
+        dot.classList.add("active");
+        heroBanner.classList.add("is-changing");
+
+        window.setTimeout(() => {
+          heroBanner.src = heroBanners[index].src;
+          heroBanner.alt = heroBanners[index].alt;
+          heroBanner.classList.remove("is-changing");
+        }, 120);
+      });
+    });
+
     const categoryChips = document.querySelectorAll(".tabs .chip");
 
     categoryChips.forEach((chip) => {
