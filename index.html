@@ -241,10 +241,20 @@
         linear-gradient(145deg, #ffc9d8, #ffe8ed 52%, #ffd0e5);
     }
     .match .visual h2 { color:#e95f85; -webkit-text-stroke: 2px #fff; }
-    .zami .visual { height: 170px; background: linear-gradient(145deg,#2d6fb6,#9ecbff); }
-    .zami .visual h2 { color:#16366f; -webkit-text-stroke: 1.5px #ffec8c; font-size: 40px; letter-spacing:-3px; }
-    .taek .visual { height: 170px; background: linear-gradient(145deg,#fff0c8,#f7d292); }
-    .taek .visual h2 { color:#1f376b; -webkit-text-stroke: 1.5px #ffda60; font-size: 43px; letter-spacing:-3px; }
+    .zami .visual {
+      background:
+        radial-gradient(circle at 18% 26%, rgba(255,255,255,.82), transparent 9%),
+        radial-gradient(circle at 82% 32%, rgba(255,255,255,.78), transparent 10%),
+        linear-gradient(145deg,#b9d8ff,#d8ebff 56%,#fff1bd);
+    }
+    .zami .visual h2 { color:#4f7fc9; -webkit-text-stroke: 2px #fff; font-size: 42px; letter-spacing:-4px; }
+    .taek .visual {
+      background:
+        radial-gradient(circle at 24% 28%, rgba(255,255,255,.82), transparent 10%),
+        radial-gradient(circle at 80% 24%, rgba(255,255,255,.78), transparent 8%),
+        linear-gradient(145deg,#fff0c8,#ffe5b8 58%,#ffd6d9);
+    }
+    .taek .visual h2 { color:#d78632; -webkit-text-stroke: 2px #fff; }
 
     .sparkles { position:absolute; inset:0; z-index:1; opacity:.85; pointer-events:none; }
     .sparkles:before, .sparkles:after {
@@ -462,8 +472,17 @@
           <h2>자미두수</h2>
           <div class="sparkles"></div>
           <div class="otter-card" aria-hidden="true">
+            <div class="hat">🔮</div>
             <div class="animal">🦦</div>
             <div class="shell-prop">🌙</div>
+          </div>
+        </div>
+        <div class="body">
+          <h3>자미두수 해설</h3>
+          <p>내 별자리로 보는 인생 흐름</p>
+          <div class="card-footer">
+            <span class="trial">1차로</span>
+            <button class="go" type="button">해설 보러가기 〉</button>
           </div>
         </div>
       </article>
@@ -473,8 +492,17 @@
           <h2>택일</h2>
           <div class="sparkles"></div>
           <div class="otter-card" aria-hidden="true">
+            <div class="hat">🧙‍♀️</div>
             <div class="animal">🦦</div>
             <div class="shell-prop">🐚</div>
+          </div>
+        </div>
+        <div class="body">
+          <h3>택일 해설</h3>
+          <p>중요한 날을 위한 길일 추천</p>
+          <div class="card-footer">
+            <span class="trial">1차로</span>
+            <button class="go" type="button">해설 보러가기 〉</button>
           </div>
         </div>
       </article>
