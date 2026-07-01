@@ -489,6 +489,7 @@
     let isHeroDragging = false;
     let heroDragStartX = 0;
     let heroDragStartScroll = 0;
+    let heroAutoplayTimer;
 
     const setActiveHeroDot = (activeIndex) => {
       heroDots.forEach((item, index) => {
@@ -496,13 +497,28 @@
       });
     };
 
+    const getActiveHeroIndex = () => Math.round(heroTrack.scrollLeft / heroTrack.clientWidth);
+
+    const goToHeroSlide = (index, behavior = "smooth") => {
+      const safeIndex = (index + heroDots.length) % heroDots.length;
+      setActiveHeroDot(safeIndex);
+      heroTrack.scrollTo({
+        left: heroTrack.clientWidth * safeIndex,
+        behavior,
+      });
+    };
+
+    const restartHeroAutoplay = () => {
+      window.clearInterval(heroAutoplayTimer);
+      heroAutoplayTimer = window.setInterval(() => {
+        goToHeroSlide(getActiveHeroIndex() + 1);
+      }, 2000);
+    };
+
     heroDots.forEach((dot, index) => {
       dot.addEventListener("click", () => {
-        setActiveHeroDot(index);
-        heroTrack.scrollTo({
-          left: heroTrack.clientWidth * index,
-          behavior: "smooth",
-        });
+        goToHeroSlide(index);
+        restartHeroAutoplay();
       });
     });
 
@@ -521,6 +537,7 @@
     heroTrack.addEventListener("pointerdown", (event) => {
       if (event.pointerType !== "mouse") return;
 
+      window.clearInterval(heroAutoplayTimer);
       isHeroDragging = true;
       heroDragStartX = event.clientX;
       heroDragStartScroll = heroTrack.scrollLeft;
@@ -546,16 +563,17 @@
       }
 
       const activeIndex = Math.round(heroTrack.scrollLeft / heroTrack.clientWidth);
-      setActiveHeroDot(activeIndex);
-      heroTrack.scrollTo({
-        left: heroTrack.clientWidth * activeIndex,
-        behavior: "smooth",
-      });
+      goToHeroSlide(activeIndex);
+      restartHeroAutoplay();
     };
 
     heroTrack.addEventListener("pointerup", endHeroDrag);
     heroTrack.addEventListener("pointercancel", endHeroDrag);
     heroTrack.addEventListener("lostpointercapture", endHeroDrag);
+    heroTrack.addEventListener("touchstart", () => window.clearInterval(heroAutoplayTimer), { passive: true });
+    heroTrack.addEventListener("touchend", restartHeroAutoplay, { passive: true });
+    heroTrack.addEventListener("touchcancel", restartHeroAutoplay, { passive: true });
+    restartHeroAutoplay();
 
     const categoryChips = document.querySelectorAll(".tabs .chip");
 
