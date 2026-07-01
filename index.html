@@ -119,6 +119,9 @@
       height: 100%;
       object-fit: cover;
       object-position: center;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
     }
     .dots { position: absolute; z-index:4; bottom: 14px; left:0; right:0; display:flex; justify-content:center; gap: 8px; }
     .dot {
@@ -352,16 +355,16 @@
     <section class="hero" aria-label="메인 배너">
       <div class="hero-track" id="heroTrack">
         <div class="hero-slide">
-          <img src="./ChatGPT Image 2026년 7월 1일 오후 10_26_55.png" alt="운세 배너 1" />
+          <img src="./ChatGPT Image 2026년 7월 1일 오후 10_26_55.png" alt="운세 배너 1" draggable="false" />
         </div>
         <div class="hero-slide">
-          <img src="./ChatGPT Image 2026년 7월 1일 오후 10_27_04.png" alt="운세 배너 2" />
+          <img src="./ChatGPT Image 2026년 7월 1일 오후 10_27_04.png" alt="운세 배너 2" draggable="false" />
         </div>
         <div class="hero-slide">
-          <img src="./ChatGPT Image 2026년 7월 1일 오후 10_27_00.png" alt="운세 배너 3" />
+          <img src="./ChatGPT Image 2026년 7월 1일 오후 10_27_00.png" alt="운세 배너 3" draggable="false" />
         </div>
         <div class="hero-slide">
-          <img src="./ChatGPT Image 2026년 7월 1일 오후 10_27_08.png" alt="운세 배너 4" />
+          <img src="./ChatGPT Image 2026년 7월 1일 오후 10_27_08.png" alt="운세 배너 4" draggable="false" />
         </div>
       </div>
       <div class="dots" aria-label="배너 선택">
@@ -509,6 +512,10 @@
         const activeIndex = Math.round(heroTrack.scrollLeft / heroTrack.clientWidth);
         setActiveHeroDot(activeIndex);
       });
+    });
+
+    heroTrack.addEventListener("dragstart", (event) => {
+      event.preventDefault();
     });
 
     heroTrack.addEventListener("pointerdown", (event) => {
