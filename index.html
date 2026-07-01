@@ -184,6 +184,7 @@
     }
     .card:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(236,91,146,.14); border-color: rgba(236,91,146,.16); }
     .card:active { transform: scale(.985); }
+    .card.is-hidden { display: none; }
     .visual {
       position: relative;
       aspect-ratio: 1 / 1;
@@ -384,7 +385,7 @@
     </section>
 
     <section class="grid" aria-label="운세 상품 목록">
-      <article class="card zami">
+      <article class="card zami" data-category="자미두수">
         <div class="visual">
           <img src="./assets/images/ChatGPT Image 2026년 7월 1일 오후 09_29_26 (4).png" alt="자미두수 카드 이미지" />
         </div>
@@ -398,7 +399,7 @@
         </div>
       </article>
 
-      <article class="card saju">
+      <article class="card saju" data-category="사주">
         <div class="visual">
           <img src="./assets/images/ChatGPT Image 2026년 7월 1일 오후 09_29_26 (2).png" alt="990원 사주 카드 이미지" />
         </div>
@@ -412,7 +413,7 @@
         </div>
       </article>
 
-      <article class="card match">
+      <article class="card match" data-category="궁합">
         <div class="visual">
           <img src="./assets/images/ChatGPT Image 2026년 7월 1일 오후 09_29_26 (3).png" alt="궁합 해설 카드 이미지" />
         </div>
@@ -426,7 +427,7 @@
         </div>
       </article>
 
-      <article class="card taek">
+      <article class="card taek" data-category="기타">
         <div class="visual">
           <img src="./assets/images/ChatGPT Image 2026년 7월 1일 오후 09_29_26 (5).png" alt="택일 카드 이미지" />
         </div>
@@ -512,7 +513,7 @@
       window.clearInterval(heroAutoplayTimer);
       heroAutoplayTimer = window.setInterval(() => {
         goToHeroSlide(getActiveHeroIndex() + 1);
-      }, 2000);
+      }, 5000);
     };
 
     heroDots.forEach((dot, index) => {
@@ -576,11 +577,18 @@
     restartHeroAutoplay();
 
     const categoryChips = document.querySelectorAll(".tabs .chip");
+    const fortuneCards = document.querySelectorAll(".grid .card");
 
     categoryChips.forEach((chip) => {
       chip.addEventListener("click", () => {
         categoryChips.forEach((item) => item.classList.remove("active"));
         chip.classList.add("active");
+
+        const selectedCategory = chip.textContent.trim();
+        fortuneCards.forEach((card) => {
+          const shouldShow = selectedCategory === "전체" || card.dataset.category === selectedCategory;
+          card.classList.toggle("is-hidden", !shouldShow);
+        });
       });
     });
   </script>
